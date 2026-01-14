@@ -123,7 +123,7 @@ impl AsyncRuntime {
     }
 }
 
-use crate::task::service::CastFromSync;
+use crate::service::CastFromSync;
 impl CastFromSync for AsyncRuntime {}
 
 impl Service for AsyncRuntime {
