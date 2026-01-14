@@ -45,7 +45,7 @@ impl Default for TickService {
     }
 }
 
-use crate::service::CastFromSync;
+use crate::task::service::CastFromSync;
 impl CastFromSync for TickService {}
 
 // service trait implementation for TickService
