@@ -34,7 +34,7 @@ impl AsyncRuntime {
 
     pub fn register<T>(&self, service: Arc<T>)
     where
-        T: AsyncService,
+        T: AsyncService + 'static,
     {
         trace!("async-runtime registering service {}", service.clone().ident());
         self.services.lock().unwrap().push(service);
