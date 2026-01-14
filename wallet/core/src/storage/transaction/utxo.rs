@@ -8,6 +8,16 @@ use serde::{Deserialize, Serialize};
 
 pub use kaspa_consensus_core::tx::TransactionId;
 
+#[cfg(target_arch = "wasm32")]
+fn get_outpoint_index(outpoint: &TransactionOutpoint) -> u32 {
+    outpoint.get_index()
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+fn get_outpoint_index(outpoint: &TransactionOutpoint) -> u32 {
+    outpoint.index()
+}
+
 /// [`UtxoRecord`] represents an incoming transaction UTXO entry
 /// stored within [`TransactionRecord`].
 #[derive(Clone, Debug, Serialize, Deserialize, BorshSerialize, BorshDeserialize)]
@@ -25,7 +35,7 @@ impl From<&UtxoEntryReference> for UtxoRecord {
     fn from(utxo: &UtxoEntryReference) -> Self {
         let UtxoEntryReference { utxo } = utxo;
         UtxoRecord {
-            index: utxo.outpoint.get_index(),
+            index: get_outpoint_index(&utxo.outpoint),
             address: utxo.address.clone(),
             amount: utxo.amount,
             script_public_key: utxo.script_public_key.clone(),
