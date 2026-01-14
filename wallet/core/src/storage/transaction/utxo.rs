@@ -43,15 +43,10 @@ pub struct UtxoRecord {
 
 impl From<&UtxoEntryReference> for UtxoRecord {
     fn from(utxo_ref: &UtxoEntryReference) -> Self {
-        #[cfg(target_arch = "wasm32")]
-        let outpoint = &utxo_ref.utxo.outpoint as &ClientOutpoint;
-
-        #[cfg(not(target_arch = "wasm32"))]
-        let outpoint = &utxo_ref.utxo.outpoint as &CoreOutpoint;
-
         let utxo = &utxo_ref.utxo;
+        
         UtxoRecord {
-            index: get_outpoint_index(outpoint),
+            index: get_outpoint_index(&utxo.outpoint),
             address: utxo.address.clone(),
             amount: utxo.amount,
             script_public_key: utxo.script_public_key.clone(),
