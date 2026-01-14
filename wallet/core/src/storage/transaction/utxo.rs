@@ -14,18 +14,15 @@ use kaspa_consensus_client::TransactionOutpoint as ClientOutpoint;
 #[cfg(not(target_arch = "wasm32"))]
 use kaspa_consensus_core::tx::TransactionOutpoint as CoreOutpoint;
 
-#[cfg(target_arch = "wasm32")]
-fn get_outpoint_index(outpoint: &ClientOutpoint) -> u32 {
-    outpoint.get_index()
+#[cfg(not(target_arch = "wasm32"))]
+fn get_outpoint_index(outpoint: &kaspa_consensus_client::TransactionOutpoint) -> u32 {
+    // ClientOutpoint usually has a getter or public field
+    outpoint.get_index() 
 }
 
-#[cfg(not(target_arch = "wasm32"))]
-fn get_outpoint_index(outpoint: &CoreOutpoint) -> u32 {
-    let core_outpoint = kaspa_consensus_core::tx::TransactionOutpoint {
-        transaction_id: outpoint.transaction_id, // ou .clone() si nécessaire
-        index: outpoint.index,
-    };
-    core_outpoint.index
+#[cfg(target_arch = "wasm32")]
+fn get_outpoint_index(outpoint: &kaspa_consensus_client::TransactionOutpoint) -> u32 {
+    outpoint.get_index()
 }
 
 /// [`UtxoRecord`] represents an incoming transaction UTXO entry
