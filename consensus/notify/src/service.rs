@@ -24,6 +24,8 @@ pub struct NotifyService {
     shutdown: SingleTrigger,
 }
 
+impl kaspa_core::task::service::CastFromSync for NotifyService {}
+
 impl NotifyService {
     pub fn new(
         root: Arc<ConsensusNotificationRoot>,
