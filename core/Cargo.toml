@@ -25,11 +25,7 @@ num_cpus.workspace = true
 tokio = { workspace = true, features = ["rt", "macros", "rt-multi-thread", "time"] }
 anyhow = "1.0.97"
 
-[target.'cfg(any(
-    target_os = "linux",
-    target_os = "macos",
-    target_os = "windows"
-))'.dependencies]
+[target.'cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))'.dependencies]
 intertrait.workspace = true
 
 [lints]
