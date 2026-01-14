@@ -5,7 +5,7 @@ use std::{sync::Arc, thread::JoinHandle};
 use intertrait::CastFromSync;
 
 #[cfg(not(any(target_os = "linux", target_os = "macos", target_os = "windows")))]
-pub trait CastFromSync {}
+pub trait CastFromSync: Send + Sync {}
 
 pub trait Service: CastFromSync {
     fn ident(self: Arc<Self>) -> &'static str;
