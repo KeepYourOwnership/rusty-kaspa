@@ -45,6 +45,9 @@ impl Default for TickService {
     }
 }
 
+use crate::task::service::CastFromSync;
+impl CastFromSync for TickService {}
+
 // service trait implementation for TickService
 impl AsyncService for TickService {
     fn ident(self: Arc<Self>) -> &'static str {
