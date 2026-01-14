@@ -9,6 +9,13 @@ use serde::{Deserialize, Serialize};
 pub use kaspa_consensus_core::tx::TransactionId;
 
 #[cfg(target_arch = "wasm32")]
+use kaspa_consensus_client::TransactionOutpoint;
+
+// Import pour Rust natif
+#[cfg(not(target_arch = "wasm32"))]
+use kaspa_consensus_core::tx::TransactionOutpoint;
+
+#[cfg(target_arch = "wasm32")]
 fn get_outpoint_index(outpoint: &TransactionOutpoint) -> u32 {
     outpoint.get_index()
 }
