@@ -22,7 +22,7 @@ impl Core {
 
     pub fn bind<T>(&self, service: Arc<T>)
     where
-        T: Service,
+        T: Service + 'static,
     {
         self.services.lock().unwrap().push(service);
     }
