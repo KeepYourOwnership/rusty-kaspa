@@ -1,7 +1,12 @@
 use futures_util::future::BoxFuture;
-use intertrait::CastFromSync;
 use std::sync::Arc;
 use thiserror::Error;
+
+#[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
+use intertrait::CastFromSync;
+
+#[cfg(not(any(target_os = "linux", target_os = "macos", target_os = "windows")))]
+pub trait CastFromSync {}
 
 #[derive(Error, Debug)]
 pub enum AsyncServiceError {
@@ -10,7 +15,6 @@ pub enum AsyncServiceError {
 }
 
 pub type AsyncServiceResult<T> = std::result::Result<T, AsyncServiceError>;
-
 pub type AsyncServiceFuture = BoxFuture<'static, AsyncServiceResult<()>>;
 
 pub trait AsyncService: CastFromSync {
