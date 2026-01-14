@@ -21,7 +21,11 @@ fn get_outpoint_index(outpoint: &ClientOutpoint) -> u32 {
 
 #[cfg(not(target_arch = "wasm32"))]
 fn get_outpoint_index(outpoint: &CoreOutpoint) -> u32 {
-    outpoint.index // champ, pas méthode
+    let core_outpoint = kaspa_consensus_core::tx::TransactionOutpoint {
+        transaction_id: outpoint.transaction_id, // ou .clone() si nécessaire
+        index: outpoint.index,
+    };
+    core_outpoint.index
 }
 
 /// [`UtxoRecord`] represents an incoming transaction UTXO entry
