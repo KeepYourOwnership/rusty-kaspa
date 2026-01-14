@@ -24,9 +24,6 @@ impl Default for AsyncRuntime {
     }
 }
 
-use crate::service::CastFromSync; 
-impl CastFromSync for AsyncRuntime {}
-
 impl AsyncRuntime {
     pub const IDENT: &'static str = "async-runtime";
 
@@ -125,6 +122,9 @@ impl AsyncRuntime {
         }
     }
 }
+
+use crate::task::service::CastFromSync;
+impl CastFromSync for AsyncRuntime {}
 
 impl Service for AsyncRuntime {
     fn ident(self: Arc<AsyncRuntime>) -> &'static str {
