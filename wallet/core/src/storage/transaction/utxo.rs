@@ -17,7 +17,7 @@ use kaspa_consensus_core::tx::TransactionOutpoint as CoreOutpoint;
 #[cfg(not(target_arch = "wasm32"))]
 fn get_outpoint_index(outpoint: &kaspa_consensus_client::TransactionOutpoint) -> u32 {
     // ClientOutpoint usually has a getter or public field
-    outpoint.get_index() 
+    outpoint.index() 
 }
 
 #[cfg(target_arch = "wasm32")]
