@@ -1,6 +1,11 @@
 use crate::core::Core;
-use intertrait::CastFromSync;
 use std::{sync::Arc, thread::JoinHandle};
+
+#[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows"))]
+use intertrait::CastFromSync;
+
+#[cfg(not(any(target_os = "linux", target_os = "macos", target_os = "windows")))]
+pub trait CastFromSync {}
 
 pub trait Service: CastFromSync {
     fn ident(self: Arc<Self>) -> &'static str;
