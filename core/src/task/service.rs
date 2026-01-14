@@ -6,7 +6,7 @@ use thiserror::Error;
 use intertrait::CastFromSync;
 
 #[cfg(not(any(target_os = "linux", target_os = "macos", target_os = "windows")))]
-pub trait CastFromSync {}
+pub trait CastFromSync: Send + Sync {}
 
 #[derive(Error, Debug)]
 pub enum AsyncServiceError {
