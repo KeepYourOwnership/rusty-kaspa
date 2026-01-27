@@ -344,3 +344,8 @@ strip = false
 [workspace.lints.clippy]
 empty_docs = "allow"
 uninlined_format_args = "allow"
+
+# Patch intertrait to use linkme 0.3.x for Android cross-compilation support
+# PR #8 at CodeChain-io/intertrait updates linkme from 0.2 to 0.3
+[patch.crates-io]
+intertrait = { git = "https://github.com/Xudong-Huang/intertrait", branch = "master" }
