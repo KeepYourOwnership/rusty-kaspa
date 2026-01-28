@@ -83,17 +83,10 @@ impl SystemInfo {
             let mut machine_id = String::new();
             file.read_to_string(&mut machine_id).ok();
             machine_id.trim().to_string()
+        } else if let Ok(Some(mac)) = mac_address::get_mac_address() {
+            // fallback on the mac address
+            mac.to_string().trim().to_string()
         } else {
-            #[cfg(not(any(target_arch = "wasm32", target_os = "ios")))]
-            if let Ok(Some(mac)) = mac_address::get_mac_address() {
-                // fallback on the mac address
-                return {
-                    let some_id = mac.to_string().trim().to_string();
-                    let mut sha256 = Sha256::default();
-                    sha256.update(some_id.as_bytes());
-                    Some(sha256.finalize().to_vec())
-                };
-            }
             // 🤷
             return None;
         };
