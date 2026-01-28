@@ -50,7 +50,7 @@ pub fn acquire_guard(value: i32) -> Result<FDGuard, Error> {
     }
 }
 
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(not(any(target_arch = "wasm32", target_os = "ios")))]
 pub fn try_set_fd_limit(limit: u64) -> std::io::Result<u64> {
     cfg_if::cfg_if! {
         if #[cfg(target_os = "windows")] {
@@ -68,6 +68,9 @@ pub fn limit() -> i32 {
         }
         else if #[cfg(target_os = "windows")] {
             rlimit::getmaxstdio() as i32
+        }
+        else if #[cfg(target_os = "ios")] {
+            512
         }
         else if #[cfg(unix)] {
             rlimit::getrlimit(rlimit::Resource::NOFILE).unwrap().0 as i32
